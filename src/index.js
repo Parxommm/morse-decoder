@@ -38,9 +38,14 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let output = expr.match(/.{1,10}/g).map(substring => substring.match(/.{1,2}/g)); //разбиваем строку на подстроки через каждые 10 символов и каждую подстроку через каждые 2 символа
+    output = output.map(substring => substring.includes('**') ? ['space'] : substring.filter(pair => pair !== '00').map(pair => (pair === '10') ? '.' : '-')); //убираем элементы равные '00' из подстрок
+    output = output.map(substring => substring.join('')).map(morseLetter => (morseLetter === 'space') ? ' ' : MORSE_TABLE[morseLetter]).join(''); // склеиваем символы подстроки, декодируем подстроку и преобразуем массив в строку
+    return output;
 }
+
 
 module.exports = {
     decode
 }
+
